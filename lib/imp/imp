@@ -1,0 +1,6 @@
+web       1:87837128882:web:7d3b6c11ed16ab8f9d71ab
+android   1:87837128882:android:d02a10befb7f8e199d71ab
+ios       1:87837128882:ios:fe3e1c220026895b9d71ab
+macos     1:87837128882:ios:f19026528f70f9a59d71ab
+
+firebase token : $FIREBASE_TOKEN
