@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:convo/models/chat_message.dart';
 
 const String USER_COLLECTION = "Users";
 const String CHAT_COLLECTION = "Chats";
@@ -54,4 +55,43 @@ class DatabaseService {
         .limit(1)
         .get();
   }
+
+  Stream<QuerySnapshot> streamMessageForChat(String _chatId) {
+    return _db
+        .collection(CHAT_COLLECTION)
+        .doc(_chatId)
+        .collection(MESSAGES_COLLECTION)
+        .orderBy("sent_time", descending: false)
+        .snapshots();
+  }
+
+  Future<void> deleteChat(String _chatId) async {
+    try {
+      await _db.collection(CHAT_COLLECTION).doc(_chatId).delete();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> addMessageToChat(String _chatId, ChatMessage _message) async {
+    try {
+      await _db
+          .collection(CHAT_COLLECTION)
+          .doc(_chatId)
+          .collection(MESSAGES_COLLECTION)
+          .add(_message.toJson());
+    } catch (e) {
+      print(e);
+    }
+  }
+  
+  Future<void> updateChatData(String _chatId, Map<String,dynamic> _data)async{
+    try{
+      await _db.collection(CHAT_COLLECTION).doc(_chatId).update(_data);
+    }catch(e){
+      print(e);
+    }
+  }
+  
+  
 }

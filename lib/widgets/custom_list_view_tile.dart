@@ -1,3 +1,6 @@
+import 'package:convo/models/chat_message.dart';
+import 'package:convo/models/chat_user.dart';
+import 'package:convo/widgets/message_bubbles.dart';
 import 'package:convo/widgets/rounded_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -48,7 +51,7 @@ class CustomListViewTileWithActivity extends StatelessWidget {
               children: [
                 SpinKitThreeBounce(
                   color: Colors.white54,
-                  size: height*0.10,
+                  size: height * 0.10,
                 ),
               ],
             )
@@ -60,6 +63,63 @@ class CustomListViewTileWithActivity extends StatelessWidget {
                 fontWeight: FontWeight.w400,
               ),
             ),
+    );
+  }
+}
+
+class CustomChatListViewTile extends StatelessWidget {
+  final double width;
+  final double height;
+  final bool isOwnMessage;
+  final ChatMessage message;
+  final ChatUser sender;
+
+  const CustomChatListViewTile({
+    super.key,
+    required this.width,
+    required this.height,
+    required this.isOwnMessage,
+    required this.message,
+    required this.sender,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(
+        bottom: 10,
+      ),
+      width: width,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment:
+            isOwnMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          !isOwnMessage
+              ? RoundedImageNetwork(
+                  key: UniqueKey(),
+                  imagePath: sender.imageURL,
+                  size: width * 0.04)
+              : Container(),
+          SizedBox(
+            width: width * 0.05,
+          ),
+          message.type == MessageType.TEXT
+              ? TextMessageBubble(
+                  isOwnMessage: isOwnMessage,
+                  message: message,
+                  height: height * 0.06,
+                  width: width,
+                )
+              : ImageMessageBubble(
+                  isOwnMessage: isOwnMessage,
+                  message: message,
+                  height: height*0.20,
+                  width: width*0.30,
+                )
+        ],
+      ),
     );
   }
 }

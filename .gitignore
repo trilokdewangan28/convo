@@ -9,6 +9,8 @@
 .history
 .svn/
 migrate_working_dir/
+firebase_options.dart
+google-services.json
 
 # IntelliJ related
 *.iml
