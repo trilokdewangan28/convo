@@ -5,6 +5,62 @@ import 'package:convo/widgets/rounded_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+class CustomListViewTile extends StatelessWidget {
+  final double height;
+  final String title;
+  final String subtitle;
+  final String imagePath;
+  final bool isActive;
+  final bool isSelected;
+  final Function onTap;
+
+  const CustomListViewTile(
+      {super.key,
+      required this.height,
+      required this.title,
+      required this.subtitle,
+      required this.imagePath,
+      required this.isActive,
+      required this.isSelected,
+      required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      trailing: isSelected
+          ? Icon(
+              Icons.check,
+              color: Colors.white,
+            )
+          : null,
+      onTap: () => onTap(),
+      minVerticalPadding: height * 0.20,
+      leading: RoundedImageNetworkWithStatusIndicator(
+        key: UniqueKey(),
+        imagePath: imagePath,
+        size: height / 2,
+        isActive: isActive,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.w500
+        ),
+      ),
+      subtitle:Text(
+        subtitle,
+        style: TextStyle(
+            color: Colors.white54,
+            fontSize: 12,
+            fontWeight: FontWeight.w400
+        ),
+      ),
+    );
+  }
+}
+
 class CustomListViewTileWithActivity extends StatelessWidget {
   final double height;
   final String title;
@@ -115,8 +171,8 @@ class CustomChatListViewTile extends StatelessWidget {
               : ImageMessageBubble(
                   isOwnMessage: isOwnMessage,
                   message: message,
-                  height: height*0.20,
-                  width: width*0.30,
+                  height: height * 0.20,
+                  width: width * 0.30,
                 )
         ],
       ),
